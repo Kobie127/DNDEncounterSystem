@@ -4,5 +4,7 @@ module.exports = app => {
 
     // Create a new enemy 
     router.post("/", enemy.create)
+    router.get("/", enemy.findAll);
+    router.get("/:name", enemy.findOne);
     app.use('/api/enemy', router);
 };;
