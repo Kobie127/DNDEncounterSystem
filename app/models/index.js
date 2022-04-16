@@ -16,8 +16,20 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.enemy = require("./enemy.model.js")(sequelize, Sequelize);
 db.resistances = require("./resistances.model.js")(sequelize, Sequelize);
+db.immunities = require("./immunities.model")(sequelize, Sequelize);
+db.vulnerabilties = require("./vulnerabilities.model")(sequelize, Sequelize);
 db.enemy.hasMany(db.resistances, { as: "resistances" });
+db.enemy.hasMany(db.immunities, { as: "immunities" });
+db.enemy.hasMany(db.vulnerabilties, { as: "vulnerabilties" });
 db.resistances.belongsTo(db.enemy, {
+  foreignKey: "enemyId",
+  as: "enemy"
+});
+db.immunities.belongsTo(db.enemy, {
+  foreignKey: "enemyId",
+  as: "enemy"
+});
+db.vulnerabilties.belongsTo(db.enemy, {
   foreignKey: "enemyId",
   as: "enemy"
 });

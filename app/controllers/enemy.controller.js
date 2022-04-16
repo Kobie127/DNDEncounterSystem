@@ -1,6 +1,8 @@
 const db = require("../models");
 const Enemy = db.enemy;
 const Resistances = db.resistances;
+const Immunities = db.immunities;
+const Vulnerabilties = db.vulnerabilties;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -44,6 +46,39 @@ exports.createResistance = (req, res) => {
         });
 };
 
+exports.createImmunities = (req, res) => {
+    const immunity = {
+        name: req.body.name,
+        enemyId: req.params.enemyId
+    };
+    Immunities.create(immunity)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error ocurred while creating the immunity"
+            });
+        });
+};
+
+exports.createVulnerability = (req, res) => {
+    const vulnerability = {
+        name: req.body.name,
+        enemyId: req.params.enemyId
+    }
+    Vulnerabilties.create(vulnerability)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err || "Some error ocurred while creating the vulnerability"
+            });
+        });
+};
 
 exports.findAll = (req, res) => {
     const name = req.query.name;
