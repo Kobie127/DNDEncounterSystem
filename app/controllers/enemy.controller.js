@@ -85,7 +85,7 @@ exports.findAll = (req, res) => {
     var conditions = name ? {name: { [Op.like]: `${name}`}} : null;
     Enemy.findAll({
         include: conditions,
-        include: ['resistances']
+        include: ['resistances', 'immunities', 'vulnerabilities']
     })
         .then(data => {
             res.send(data);
