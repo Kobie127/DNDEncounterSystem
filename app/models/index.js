@@ -15,4 +15,10 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 db.enemy = require("./enemy.model.js")(sequelize, Sequelize);
+db.resistances = require("./resistances.model.js")(sequelize, Sequelize);
+db.enemy.hasMany(db.resistances, { as: "resistances" });
+db.resistances.belongsTo(db.enemy, {
+  foreignKey: "enemyId",
+  as: "enemy"
+});
 module.exports = db;

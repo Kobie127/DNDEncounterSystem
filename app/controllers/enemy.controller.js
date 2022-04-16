@@ -1,5 +1,6 @@
 const db = require("../models");
 const Enemy = db.enemy;
+const Resistances = db.resistances;
 const Op = db.Sequelize.Op;
 
 exports.create = (req, res) => {
@@ -26,10 +27,31 @@ exports.create = (req, res) => {
         });
 };
 
+exports.createResistance = (req, res) => {
+    const resistance = {
+        name: req.body.name,
+        enemyId: req.params.enemyId
+    };
+    Resistances.create(resistance)
+        .then(data => {
+            res.send(data);
+        })
+        .catch(err => {
+            res.status(500).send({
+                message:
+                    err.message || "Some error ocurred while creating the Resistance"
+            });
+        });
+};
+
+
 exports.findAll = (req, res) => {
     const name = req.query.name;
     var conditions = name ? {name: { [Op.like]: `${name}`}} : null;
-    Enemy.findAll({where: conditions})
+    Enemy.findAll({
+        include: conditions,
+        include: ['resistances']
+    })
         .then(data => {
             res.send(data);
         })
